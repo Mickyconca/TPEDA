@@ -5,15 +5,16 @@ import java.util.*;
 public class BusDijkstra {
 
     private final boolean isDirected;
-    private Map<String, StopNode> nodes;            // como organizamos el mapa? String por ahora seria el nombre de la linea
+    private Map<Long, StopNode> nodes;            // como organizamos el mapa? Long por ahora seria el id de la parada
 
     public BusDijkstra(boolean isDirected) {
         this.isDirected = isDirected;
         nodes = new HashMap<>();
+
     }
 
-    public void addNode(String shortName, Float latitude, Float longitude, int direction){ //lo cree public para poder acceder del Start
-        nodes.putIfAbsent(shortName, new StopNode(shortName, latitude, longitude, direction));
+    public void addNode(Long stopId, String shortName, Float latitude, Float longitude, int direction){ //lo cree public para poder acceder del Start
+        nodes.putIfAbsent(stopId, new StopNode(stopId, shortName, latitude, longitude, direction));
     }
 
 //    public boolean getNode(String bus){
@@ -66,6 +67,7 @@ public class BusDijkstra {
 
     class StopNode implements Comparable<StopNode>{
         String shortName;
+        Long stopId;
         Set<Edge> edges;
         Float latitude;
         Float longitude;
@@ -73,7 +75,8 @@ public class BusDijkstra {
         double distance = Double.MAX_VALUE;
         boolean visited;
 
-        StopNode(String shortName, Float latitude, Float longitude, int direction) {
+        StopNode(Long stopId, String shortName, Float latitude, Float longitude, int direction) {
+            this.stopId = stopId;
             this.shortName = shortName;     // nombre de la linea
             this.latitude = latitude;
             this.longitude = longitude;
