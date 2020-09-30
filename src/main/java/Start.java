@@ -39,11 +39,11 @@ public class Start {
             .parse(in);
 
     // se crea el grafo
-    BusDijkstra graph = new BusDijkstra(true); // para mi tendria que ser siempre dirigido
+    BusDijkstra graph = new BusDijkstra(false); // para mi tendria que ser siempre dirigido
 
     // voy agregando los nodos
     for (CSVRecord record : records) {
-      graph.addNode(record.get("route_short_name"), Float.parseFloat(record.get("stop_lat")), Float.parseFloat(record.get("stop_lon")), Integer.parseInt(record.get("direction_id")));
+      graph.addNode(record.get("stop_id"),record.get("route_short_name"), Float.parseFloat(record.get("stop_lat")), Float.parseFloat(record.get("stop_lon")), Integer.parseInt(record.get("direction_id")));
     }
     System.out.println(graph.getSize());
 
