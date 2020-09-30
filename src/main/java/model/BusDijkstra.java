@@ -23,6 +23,9 @@ public class BusDijkstra {
 //        return false;
 //    }
 
+    public int getSize(){
+        return nodes.size();
+    }
 
     void addEdge(String label1, String label2, double weight){          //IMPORTANTE
         StopNode node1 = nodes.get(label1);

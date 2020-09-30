@@ -45,6 +45,7 @@ public class Start {
     for (CSVRecord record : records) {
       graph.addNode(record.get("route_short_name"), Float.parseFloat(record.get("stop_lat")), Float.parseFloat(record.get("stop_lon")), Integer.parseInt(record.get("direction_id")));
     }
+    System.out.println(graph.getSize());
 
     in.close();
 
