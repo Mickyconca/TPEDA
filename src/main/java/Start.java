@@ -46,7 +46,6 @@ public class Start {
       graph.addNode(record.get("stop_id"),record.get("route_short_name"), Float.parseFloat(record.get("stop_lat")), Float.parseFloat(record.get("stop_lon")), Integer.parseInt(record.get("direction_id")));
     }
     System.out.println(graph.getSize());
-
     in.close();
 
 

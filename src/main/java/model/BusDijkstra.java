@@ -10,7 +10,6 @@ public class BusDijkstra {
     public BusDijkstra(boolean isDirected) {
         this.isDirected = isDirected;
         nodes = new HashMap<>();
-
     }
 
     public void addNode(String stopId, String shortName, Float latitude, Float longitude, int direction){ //lo cree public para poder acceder del Start
@@ -28,7 +27,18 @@ public class BusDijkstra {
         return nodes.size();
     }
 
-    void addEdge(String stop1, String stop2, double weight){
+    public void addEdges(){
+        StopNode[] vector = nodes.values().toArray(new StopNode[0]);
+        for (int i = 0; i < vector.length-1; i++) {
+            for (int j = i+1; j < vector.length; j++){
+                if(vector[i].shortName.equals(vector[j].shortName)){
+                    addEdge(vector[i].stopId, vector[j].stopId, 5);
+                }
+            }
+        }
+    }
+
+    public void addEdge(String stop1, String stop2, double weight){
         StopNode node1 = nodes.get(stop1);
         StopNode node2 = nodes.get(stop2);
 
@@ -65,8 +75,6 @@ public class BusDijkstra {
             }
         }
     }
-    
-    private 
 
     class StopNode implements Comparable<StopNode>{
         String shortName;
