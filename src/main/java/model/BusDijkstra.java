@@ -27,6 +27,10 @@ public class BusDijkstra {
         return nodes.size();
     }
 
+    private double distance(StopNode stop1, StopNode stop2){
+        return Math.abs(stop1.latitude - stop2.latitude) + Math.abs(stop1.longitude - stop2.longitude);
+    }
+
     public void addEdges(){
         StopNode[] vector = nodes.values().toArray(new StopNode[0]);
         for (int i = 0; i < vector.length-1; i++) {
