@@ -28,14 +28,17 @@ public class BusDijkstra {
         return nodes.size();
     }
 
-    void addEdge(String label1, String label2, double weight){          //IMPORTANTE
-        StopNode node1 = nodes.get(label1);
-        StopNode node2 = nodes.get(label2);
+    void addEdge(Long stop1, Long stop2, double weight){
+        StopNode node1 = nodes.get(stop1);
+        StopNode node2 = nodes.get(stop2);
 
         if(node1 == null || node2 == null){
             return;
         }
-        //TODO
+        node1.edges.add(new Edge(node2, weight));
+        if (!isDirected) {                                      // No es dirigido pero se podria implementar en caso de querer que sea dirigido
+            node2.edges.add(new Edge(node1, weight));
+        }
     }
 
     public void printDijkstra(String startingLabel){                        // O((N+E) * log(n))
