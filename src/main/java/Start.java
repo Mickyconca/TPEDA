@@ -45,7 +45,9 @@ public class Start {
     for (CSVRecord record : records) {
       graph.addNode(record.get("stop_id"),record.get("route_short_name"), Float.parseFloat(record.get("stop_lat")), Float.parseFloat(record.get("stop_lon")), Integer.parseInt(record.get("direction_id")));
     }
+    graph.addEdges();
     System.out.println(graph.getSize());
+    graph.printAristas("201");
     in.close();
 
 
