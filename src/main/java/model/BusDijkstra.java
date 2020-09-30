@@ -12,7 +12,7 @@ public class BusDijkstra {
         nodes = new HashMap<>();
     }
 
-    void addNode(String shortName, Float latitude, Float longitude, int direction){
+    public void addNode(String shortName, Float latitude, Float longitude, int direction){ //lo cree public para poder acceder del Start
         nodes.putIfAbsent(shortName, new StopNode(shortName, latitude, longitude, direction));
     }
 
