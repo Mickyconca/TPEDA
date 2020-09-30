@@ -6,6 +6,7 @@ public class BusDijkstra {
 
     private final boolean isDirected;
     private final Map<String, StopNode> nodes;            // como organizamos el mapa? Long por ahora seria el id de la parada
+    private static final int radio = 10;
 
     public BusDijkstra(boolean isDirected) {
         this.isDirected = isDirected;
@@ -31,12 +32,19 @@ public class BusDijkstra {
         return Math.abs(stop1.latitude - stop2.latitude) + Math.abs(stop1.longitude - stop2.longitude);
     }
 
+    private double distanceWalked(StopNode stop1, StopNode stop2){
+        return distance(stop1,stop2) * 2;
+    }
+
     public void addEdges(){
         StopNode[] vector = nodes.values().toArray(new StopNode[0]);
         for (int i = 0; i < vector.length-1; i++) {
             for (int j = i+1; j < vector.length; j++){
                 if(vector[i].shortName.equals(vector[j].shortName)){
-                    addEdge(vector[i].stopId, vector[j].stopId, 5);
+                    addEdge(vector[i].stopId, vector[j].stopId, distance(vector[i], vector[j]));
+                }
+                else if(distance(vector[i], vector[j]) < radio){
+                    addEdge(vector[i].stopId, vector[j].stopId, distanceWalked(vector[i], vector[j]));
                 }
             }
         }
