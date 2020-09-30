@@ -16,6 +16,13 @@ public class BusDijkstra {
         nodes.putIfAbsent(shortName, new StopNode(shortName, latitude, longitude, direction));
     }
 
+//    public boolean getNode(String bus){
+//        if(nodes.get(bus) != null){
+//            return true;
+//        }
+//        return false;
+//    }
+
 
     void addEdge(String label1, String label2, double weight){          //IMPORTANTE
         StopNode node1 = nodes.get(label1);
