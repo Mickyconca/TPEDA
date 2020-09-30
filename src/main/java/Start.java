@@ -47,7 +47,7 @@ public class Start {
     }
     graph.addEdges();
     System.out.println(graph.getSize());
-    graph.printAristas("201");
+    graph.printAristas("201");    // Aca esta el print Aristas
     in.close();
 
 

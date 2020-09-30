@@ -29,7 +29,7 @@ public class BusDijkstra {
     }
 
     public void printAristas(String stopId){
-        System.out.println(String.format("Edges size: " + nodes.get(stopId).edges.size()));
+        System.out.println(String.format("Edges size: " + nodes.get(stopId).edges.size()));     // Para que quede bonito
         nodes.get(stopId).edges.forEach(System.out::println);
     }
 
