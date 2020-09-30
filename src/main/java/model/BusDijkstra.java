@@ -6,7 +6,7 @@ public class BusDijkstra {
 
     private final boolean isDirected;
     private final Map<String, StopNode> nodes;            // como organizamos el mapa? Long por ahora seria el id de la parada
-    private static final double RADIO = 0.0005;
+    private static final double RADIO = 0.005;
 
     public BusDijkstra(boolean isDirected) {
         this.isDirected = isDirected;
