@@ -25,8 +25,8 @@ public class BusDijkstra {
         return nodes.size();
     }
 
-    public void printAristas(String stopId){
-        System.out.println(String.format("Edges size: " + nodes.get(stopId).edges.size()));     // Para que quede bonito
+    public void printEdges(String stopId){
+        System.out.println("Edges size: " + nodes.get(stopId).edges.size());     // Para que quede bonito
         nodes.get(stopId).edges.forEach(System.out::println);
     }
 
@@ -52,7 +52,7 @@ public class BusDijkstra {
         }
     }
 
-    public void addEdge(String stop1, String stop2, double weight){
+    private void addEdge(String stop1, String stop2, double weight){
         StopNode node1 = nodes.get(stop1);
         StopNode node2 = nodes.get(stop2);
 
@@ -70,12 +70,12 @@ public class BusDijkstra {
         StopNode returnNode = new StopNode(mapPoint,mapPoint,latitude,longitude,direction);
 
         StopNode[] vector = nodes.values().toArray(new StopNode[0]);
-        for (int i = 0; i < vector.length; i++){
-            if(distance(returnNode, vector[i]) < RADIO){
-                double weight = distanceWalked(returnNode, vector[i]);
-                returnNode.edges.add(new Edge(vector[i], weight));
+        for (StopNode stopNode : vector) {
+            if (distance(returnNode, stopNode) < RADIO) {
+                double weight = distanceWalked(returnNode, stopNode);
+                returnNode.edges.add(new Edge(stopNode, weight));
                 if (!isDirected) {                                      // No es dirigido pero se podria implementar en caso de querer que sea dirigido
-                    vector[i].edges.add(new Edge(returnNode, weight));
+                    stopNode.edges.add(new Edge(returnNode, weight));
                 }
             }
         }
@@ -173,7 +173,7 @@ public class BusDijkstra {
         StopNode target;
         double weight;
 
-        public Edge(StopNode target, double weight) {
+        Edge(StopNode target, double weight) {
             this.target = target;
             this.weight = weight;
         }
