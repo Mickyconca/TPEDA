@@ -67,30 +67,40 @@ public class BusDijkstra {
             node2.edges.add(new Edge(node1, weight));
         }
     }
+                                                                                // agregar edges starting point y end point
+    public List<StopNode> pathDijkstra(String startStop, String endStop ){    // starting point y end point                    // O((N+E) * log(n))
+        nodes.values().forEach(node -> {node.cost = Double.MAX_VALUE;
+                                        node.visited = false;});       //HAY QUE CAMBIAR PRINT DIJKSTRA
+        List<StopNode> list = new ArrayList<>();
 
-    public void printDijkstra(String startingLabel){                        // O((N+E) * log(n))
-        nodes.values().forEach(node -> node.distance = Double.MAX_VALUE);       //HAY QUE CAMBIAR PRINT DIJKSTRA
-
-        StopNode startingNode = nodes.get(startingLabel);
-        startingNode.distance = 0;
+        StopNode startingNode = nodes.get(startStop);       // le pasariamos el punto seleccionado StopNode
+        startingNode.cost = 0;
         PriorityQueue<StopNode> queue = new PriorityQueue<>();
         queue.add(startingNode);
+        list.add(startingNode);
 
-        while(!queue.isEmpty()){
+        while(!queue.isEmpty()){                //recorrimos todos los nodos y vimos la dist min a todos
             StopNode node = queue.remove();
 
             if(node.visited) continue;
             node.visited = true;
+            System.out.println(node.shortName + ": " + node.cost);
 
-            for(Edge edge : node.edges){
-                double newCost = node.distance + edge.weigth;       //distance seria distancia caminada, weight distancia en el mapa
+            for(Edge edge : node.edges){                        // revisa todos los edges
+                double newCost = node.cost + edge.weight;       //cost es la menor distancia a ese nodo, weight distancia entre nodos en el mapa (puede ser caminada o no)
                 StopNode nextNode = edge.target;
-                if(newCost < nextNode.distance){
-                    nextNode.distance = newCost;
+                if(newCost < nextNode.cost) {
+                    nextNode.cost = newCost;
                     queue.add(nextNode);
+                    list.add(nextNode);
                 }
             }
         }
+
+        // la menor dist a endStop -> dentro del while
+
+
+        return list;
     }
 
     class StopNode implements Comparable<StopNode>{
@@ -100,7 +110,8 @@ public class BusDijkstra {
         Float latitude;
         Float longitude;
         int direction;
-        double distance = Double.MAX_VALUE;
+
+        double cost;
         boolean visited;
 
         StopNode(String stopId, String shortName, Float latitude, Float longitude, int direction) {
@@ -139,11 +150,11 @@ public class BusDijkstra {
 
     class Edge{
         StopNode target;
-        double weigth;
+        double weight;
 
-        public Edge(StopNode target, double weigth) {
+        public Edge(StopNode target, double weight) {
             this.target = target;
-            this.weigth = weigth;
+            this.weight = weight;
         }
 
         @Override
