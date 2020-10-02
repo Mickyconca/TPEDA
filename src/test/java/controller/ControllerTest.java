@@ -16,12 +16,10 @@ class ControllerTest {
   void testDijkstra(){
     BusDijkstra graph = TestGraphFactory.createGraph();
 
-    List<BusDijkstra.StopNode> path= graph.pathDijkstra(graph.getNode("A"), graph.getNode("E"));
-    System.out.println("Path: [");
+    List<BusDijkstra.StopNode> path= graph.pathDijkstra(graph.getNode("A"), graph.getNode("G"));
     for (BusDijkstra.StopNode stopNode : path) {
       System.out.println(stopNode);
     }
-    System.out.println("]");
 
   }
 
