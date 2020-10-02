@@ -68,6 +68,24 @@ public class BusDijkstra {
         }
     }
 
+    public StopNode addMapNode(String mapPoint, Float latitude, Float longitude){
+        int direction = 0;                                                          // No me importa la direccion
+        StopNode returnNode = new StopNode(mapPoint,mapPoint,latitude,longitude,direction);
+
+        StopNode[] vector = nodes.values().toArray(new StopNode[0]);
+        for (int i = 0; i < vector.length; i++){
+            if(distance(returnNode, vector[i]) < RADIO){
+                double weight = distanceWalked(returnNode, vector[i]);
+                returnNode.edges.add(new Edge(vector[i], weight));
+                if (!isDirected) {                                      // No es dirigido pero se podria implementar en caso de querer que sea dirigido
+                    vector[i].edges.add(new Edge(returnNode, weight));
+                }
+            }
+        }
+
+        return returnNode;
+    }
+
     // pathDijsktra recibe el punto de inicio y final como nodos StopNode
     public List<StopNode> pathDijkstra(StopNode startStop, StopNode endStop){     // O((n+e) * log(n) + m)
         nodes.values().forEach(node -> {node.cost = Double.MAX_VALUE;
