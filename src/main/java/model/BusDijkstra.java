@@ -13,16 +13,13 @@ public class BusDijkstra {
         nodes = new HashMap<>();
     }
 
-    public void addNode(String stopId, String shortName, Float latitude, Float longitude, int direction){ //lo cree public para poder acceder del Start
+    public void addNode(String stopId, String shortName, double latitude, double longitude, int direction){ //lo cree public para poder acceder del Start
         nodes.putIfAbsent(stopId, new StopNode(stopId, shortName, latitude, longitude, direction));
     }
 
-//    public boolean getNode(String bus){
-//        if(nodes.get(bus) != null){
-//            return true;
-//        }
-//        return false;
-//    }
+    public StopNode getNode(String id){
+        return nodes.get(id);
+    }
 
     public int getSize(){
         return nodes.size();
@@ -126,19 +123,19 @@ public class BusDijkstra {
     }
 
 
-    class StopNode implements Comparable<StopNode>{
+    public static class StopNode implements Comparable<StopNode>{
         String shortName;
         String stopId;
         Set<Edge> edges;
-        Float latitude;
-        Float longitude;
+        double latitude;
+        double longitude;
         int direction;
 
         double cost;
         boolean visited;
         StopNode previousNode;
 
-        StopNode(String stopId, String shortName, Float latitude, Float longitude, int direction) {
+        StopNode(String stopId, String shortName, double latitude, double longitude, int direction) {
             this.stopId = stopId;
             this.shortName = shortName;     // nombre de la linea
             this.latitude = latitude;
@@ -172,7 +169,7 @@ public class BusDijkstra {
         }
     }
 
-    class Edge{
+    static class Edge{
         StopNode target;
         double weight;
 
