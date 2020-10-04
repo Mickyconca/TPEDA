@@ -52,7 +52,7 @@ public class BusDijkstra {
         }
     }
 
-    public void addEdge(String stop1, String stop2, double weight){
+    private void addEdge(String stop1, String stop2, double weight){
         StopNode node1 = nodes.get(stop1);
         StopNode node2 = nodes.get(stop2);
 
