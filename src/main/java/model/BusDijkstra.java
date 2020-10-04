@@ -21,14 +21,14 @@ public class BusDijkstra {
         return nodes.get(id);
     }
 
-    public int getSize(){
-        return nodes.size();
-    }
-
-    public void printEdges(String stopId){
-        System.out.println("Edges size: " + nodes.get(stopId).edges.size());     // Para que quede bonito
-        nodes.get(stopId).edges.forEach(System.out::println);
-    }
+//    public int getSize(){
+//        return nodes.size();
+//    }
+//
+//    public void printEdges(String stopId){
+//        //System.out.println("Edges size: " + nodes.get(stopId).edges.size());     // Para que quede bonito
+//        nodes.get(stopId).edges.forEach(System.out::println);
+//    }
 
     private double distance(StopNode stop1, StopNode stop2){
         return Math.abs(stop1.latitude - stop2.latitude) + Math.abs(stop1.longitude - stop2.longitude);
@@ -63,15 +63,13 @@ public class BusDijkstra {
         if (!isDirected) {                                      // No es dirigido pero se podria implementar en caso de querer que sea dirigido
             node2.edges.add(new Edge(node1, weight));
         }
-        System.out.println(stop1 + " se conecta con " + stop2);
     }
 
     private StopNode addMapNode(String mapPoint, double latitude, double longitude){
         int direction = 0;                                                          // No me importa la direccion
         StopNode returnNode = new StopNode(mapPoint,mapPoint,latitude,longitude,direction);
 
-        StopNode[] vector = nodes.values().toArray(new StopNode[0]);
-        for (StopNode stopNode : vector) {
+        for (StopNode stopNode : nodes.values()) {
             if (distance(returnNode, stopNode) < RADIO) {
                 double weight = distanceWalked(returnNode, stopNode);
                 returnNode.edges.add(new Edge(stopNode, weight));
@@ -102,6 +100,11 @@ public class BusDijkstra {
         nodes.values().forEach(node -> {node.cost = Double.MAX_VALUE;
                                         node.visited = false;
                                         node.previousNode = null;});
+        startStop.visited = false;
+        startStop.previousNode = null;
+        endStop.cost = Double.MAX_VALUE;
+        endStop.visited = false;
+        endStop.previousNode = null;
 
         startStop.cost = 0;
         PriorityQueue<StopNode> queue = new PriorityQueue<>();
@@ -112,7 +115,7 @@ public class BusDijkstra {
 
             if(node.visited) continue;
             node.visited = true;
-            System.out.println(node.shortName + ": " + node.cost);
+            //System.out.println(node.shortName + ": " + node.cost);
 
             for(Edge edge : node.edges){
                 double newCost = node.cost + edge.weight;
