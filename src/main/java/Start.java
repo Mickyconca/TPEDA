@@ -51,7 +51,7 @@ public class Start {
     for (CSVRecord record : records2) {
       locations.addLocation(record.get("establecimiento"), Double.parseDouble(record.get("latitud")), Double.parseDouble(record.get("longitud")));
     }
-    in.close();
+    in2.close();
 
     Controller controller = new Controller(graph,locations);
     cors();

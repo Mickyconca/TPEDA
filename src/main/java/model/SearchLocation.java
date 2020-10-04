@@ -8,16 +8,16 @@ import java.util.Map;
 public class SearchLocation {
 
     private Map<String,PlaceLocation> locations = new HashMap<>();
-    private static final int MIN_SIMILARITY = 1;
+    private static final double MIN_SIMILARITY = 0.5;
 
     public void addLocation(String name, double lat, double lng){
-        locations.putIfAbsent("name",new PlaceLocation(name,lat,lng));
+        locations.putIfAbsent(name,new PlaceLocation(name,lat,lng));
     }
 
     public List<PlaceLocation> search(String searchTerm){
         List<PlaceLocation> foundLocations = new ArrayList<>();
         for(PlaceLocation loc : locations.values()){
-            if(QGram.similarity(searchTerm, loc.getName()) < MIN_SIMILARITY){
+            if(QGram.similarity(searchTerm, loc.getName()) > MIN_SIMILARITY){
                 foundLocations.add(loc);
             }
         }
