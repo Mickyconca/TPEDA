@@ -14,7 +14,7 @@ import static utils.Json.json;
 public class Start {
 
   public static void main(String[] args) throws IOException {
-    // se lee el archivo
+    // se lee el archivo de paradas
     String fileName= "/paradas-de-colectivo.csv"; InputStream is =
             Start.class.getResourceAsStream(fileName );
 
@@ -33,6 +33,23 @@ public class Start {
     graph.addEdges();
 //    System.out.println(graph.getSize());
 //    graph.printEdges("204598");    // Aca esta el print Aristas
+    in.close();
+
+
+    // se lee el archivo de centros culturales
+    String fileName2= "/espacios-culturales.csv"; InputStream is2 =
+            Start.class.getResourceAsStream(fileName2);
+
+    Reader in2 = new InputStreamReader(is2);
+    Iterable<CSVRecord> records2 = CSVFormat.DEFAULT
+            .withFirstRecordAsHeader()
+            .parse(in2);
+
+    SearchLocation locations = new SearchLocation();
+
+    for (CSVRecord record : records2) {
+      locations.addLocation(record.get("establecimiento"), Double.parseDouble(record.get("latitud")), Double.parseDouble(record.get("longitud")));
+    }
     in.close();
 
     Controller controller = new Controller(graph);
