@@ -13,22 +13,6 @@ import static utils.Json.json;
 public class Start {
 
   public static void main(String[] args) throws IOException {
-    Controller controller = new Controller();
-    cors();
-    after((req, res) -> res.type("application/json"));
-    get("/path", (req, res) -> {
-      double fromLat = Double.parseDouble(req.queryParams("fromLat"));
-      double fromLng = Double.parseDouble(req.queryParams("fromLng"));
-      double toLat = Double.parseDouble(req.queryParams("toLat"));
-      double toLng = Double.parseDouble(req.queryParams("toLng"));
-      return controller.findPath(fromLat, fromLng, toLat, toLng);
-    }, json());
-    get("/place", (req, res) -> {
-      String searchTerm = req.queryParams("searchTerm");
-      return controller.findPlaces(searchTerm);
-    }, json());
-
-
     // se lee el archivo
     String fileName= "/paradas-de-colectivo.csv"; InputStream is =
             Start.class.getResourceAsStream(fileName );
@@ -46,9 +30,27 @@ public class Start {
       graph.addNode(record.get("stop_id"),record.get("route_short_name"), Double.parseDouble(record.get("stop_lat")), Double.parseDouble(record.get("stop_lon")), Integer.parseInt(record.get("direction_id")));
     }
     graph.addEdges();
-    System.out.println(graph.getSize());
-    graph.printEdges("204598");    // Aca esta el print Aristas
+//    System.out.println(graph.getSize());
+//    graph.printEdges("204598");    // Aca esta el print Aristas
     in.close();
+
+    Controller controller = new Controller(graph);
+    cors();
+    after((req, res) -> res.type("application/json"));
+    get("/path", (req, res) -> {
+      double fromLat = Double.parseDouble(req.queryParams("fromLat"));
+      double fromLng = Double.parseDouble(req.queryParams("fromLng"));
+      double toLat = Double.parseDouble(req.queryParams("toLat"));
+      double toLng = Double.parseDouble(req.queryParams("toLng"));
+      return controller.findPath(fromLat, fromLng, toLat, toLng);
+    }, json());
+    get("/place", (req, res) -> {
+      String searchTerm = req.queryParams("searchTerm");
+      return controller.findPlaces(searchTerm);
+    }, json());
+
+
+
 
 
   }
