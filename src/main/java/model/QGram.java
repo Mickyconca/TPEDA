@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class QGram {
 
-    private static int N;
+    private static int N = 2;
 
     public QGram(int n) {
         QGram.N = n;

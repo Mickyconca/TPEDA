@@ -9,7 +9,6 @@ public class SearchLocation {
 
     private Map<String,PlaceLocation> locations = new HashMap<>();
     private static final int MIN_SIMILARITY = 1;
-    private static final int DEFAULT_QGRAM = 2;
 
     public void addLocation(String name, double lat, double lng){
         locations.putIfAbsent("name",new PlaceLocation(name,lat,lng));
@@ -17,7 +16,6 @@ public class SearchLocation {
 
     public List<PlaceLocation> search(String searchTerm){
         List<PlaceLocation> foundLocations = new ArrayList<>();
-        QGram qGram = new QGram(DEFAULT_QGRAM);
         for(PlaceLocation loc : locations.values()){
             if(QGram.similarity(searchTerm, loc.getName()) < MIN_SIMILARITY){
                 foundLocations.add(loc);
