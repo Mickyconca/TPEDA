@@ -12,12 +12,12 @@ public class QGram {
         QGram.N = n;
     }
 
-    public void printTokens(final String str) {
-        Map<String, Integer> map = getTokens(str);
-        map.forEach((k, v) -> System.out.printf("%s    %d%n", k, v));
-    }
+//    public void printTokens(final String str) {
+//        Map<String, Integer> map = getTokens(str);
+//        map.forEach((k, v) -> System.out.printf("%s    %d%n", k, v));
+//    }
 
-    public static Map<String, Integer> getTokens(String str) {
+    private static Map<String, Integer> getTokens(String str) {
         HashMap<String, Integer> map = new HashMap<>();
         StringBuilder string = new StringBuilder();
         appends(string);

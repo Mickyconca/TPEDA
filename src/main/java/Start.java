@@ -1,5 +1,6 @@
 import model.BusDijkstra;
 import model.BusInPath;
+import model.SearchLocation;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
 
@@ -52,7 +53,7 @@ public class Start {
     }
     in.close();
 
-    Controller controller = new Controller(graph);
+    Controller controller = new Controller(graph,locations);
     cors();
     after((req, res) -> res.type("application/json"));
     get("/path", (req, res) -> {

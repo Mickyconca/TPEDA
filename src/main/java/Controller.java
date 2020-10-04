@@ -1,6 +1,7 @@
 import model.BusDijkstra;
 import model.BusInPath;
 import model.PlaceLocation;
+import model.SearchLocation;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,9 +9,11 @@ import java.util.List;
 public class Controller {
 
   BusDijkstra bus;
+  SearchLocation location;
 
-  public Controller(BusDijkstra bus) {
+  public Controller(BusDijkstra bus, SearchLocation location) {
     this.bus = bus;
+    this.location = location;
   }
 
   public List<BusInPath> findPath(double fromLat, double fromLng, double toLat, double toLng) {
@@ -18,6 +21,6 @@ public class Controller {
   }
 
   public List<PlaceLocation> findPlaces(String searchTerm) {
-    return Arrays.asList(new PlaceLocation("No implementado"));
+    return location.search(searchTerm);
   }
 }
