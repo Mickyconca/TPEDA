@@ -88,7 +88,7 @@ public class BusDijkstra {
         List<StopNode> stopNodeList = pathDijkstra(begin, finish);
         List<BusInPath> toReturn = new ArrayList<>();
 
-        for(int i=0; i< stopNodeList.size()-1; i++){
+        for(int i=1; i< stopNodeList.size()-2; i+=2){
             toReturn.add(new BusInPath(stopNodeList.get(i).shortName, stopNodeList.get(i).latitude, stopNodeList.get(i).longitude, stopNodeList.get(i+1).latitude, stopNodeList.get(i+1).longitude));
         }
 
