@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 public class BusInPath {
   public final String name;
   public final double fromLat;
@@ -14,4 +16,5 @@ public class BusInPath {
     this.toLat = toLat;
     this.toLng = toLng;
   }
+
 }

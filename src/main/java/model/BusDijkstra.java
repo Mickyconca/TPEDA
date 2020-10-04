@@ -63,9 +63,10 @@ public class BusDijkstra {
         if (!isDirected) {                                      // No es dirigido pero se podria implementar en caso de querer que sea dirigido
             node2.edges.add(new Edge(node1, weight));
         }
+        System.out.println(stop1 + " se conecta con " + stop2);
     }
 
-    public StopNode addMapNode(String mapPoint, Float latitude, Float longitude){
+    private StopNode addMapNode(String mapPoint, double latitude, double longitude){
         int direction = 0;                                                          // No me importa la direccion
         StopNode returnNode = new StopNode(mapPoint,mapPoint,latitude,longitude,direction);
 
@@ -81,6 +82,19 @@ public class BusDijkstra {
         }
 
         return returnNode;
+    }
+
+    public List<BusInPath> path(double fromLat, double fromLng, double toLat, double toLng){
+        StopNode begin = addMapNode("begin",fromLat, fromLng);
+        StopNode finish = addMapNode("finish",toLat, toLng);
+        List<StopNode> stopNodeList = pathDijkstra(begin, finish);
+        List<BusInPath> toReturn = new ArrayList<>();
+
+        for(int i=0; i< stopNodeList.size()-1; i++){
+            toReturn.add(new BusInPath(stopNodeList.get(i).shortName, stopNodeList.get(i).latitude, stopNodeList.get(i).longitude, stopNodeList.get(i+1).latitude, stopNodeList.get(i+1).longitude));
+        }
+
+        return toReturn;
     }
 
     // pathDijsktra recibe el punto de inicio y final como nodos StopNode
@@ -113,6 +127,9 @@ public class BusDijkstra {
 
         // la menor dist a endStop
         List<StopNode> list = new ArrayList<>();
+        if(endStop.previousNode == null){
+            return list;
+        }
         for(StopNode current = endStop; current != null; current = current.previousNode){       // O(m)
             list.add(current);
         }
