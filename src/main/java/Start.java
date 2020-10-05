@@ -34,7 +34,6 @@ public class Start {
     graph.addEdges();
 //    System.out.println(graph.getSize());
 //    graph.printEdges("204598");    // Aca esta el print Aristas
-    in.close();
 
 
     // se lee el archivo de centros culturales

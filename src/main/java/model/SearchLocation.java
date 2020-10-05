@@ -8,7 +8,7 @@ import java.util.Map;
 public class SearchLocation {
 
     private Map<String,PlaceLocation> locations = new HashMap<>();
-    private static final double MIN_SIMILARITY = 0.5;
+    private static final double MIN_SIMILARITY = 0.9;
 
     public void addLocation(String name, double lat, double lng){
         locations.putIfAbsent(name,new PlaceLocation(name,lat,lng));

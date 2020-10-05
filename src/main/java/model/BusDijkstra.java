@@ -65,6 +65,26 @@ public class BusDijkstra {
         }
     }
 
+//    void deleteEdge(Edge toDelete, StopNode node) {
+//        if (node == null ) {
+//            System.out.println("Node doesn't exist");
+//            return;
+//        }
+//        node.edges.remove(toDelete);
+//        if(!isDirected){
+//            toDelete.target.edges.remove(toDelete);
+//        }
+//    }
+
+    void deleteEdges(StopNode node){
+        for(Edge edge:node.edges){
+//            node.edges.remove(edge); // esto no me deja hacerlo
+//            if(!isDirected)
+                edge.target.edges.remove(edge);
+        }
+        node.edges=null;
+    }
+
     private StopNode addMapNode(String mapPoint, double latitude, double longitude){
         int direction = 0;                                                          // No me importa la direccion
         StopNode returnNode = new StopNode(mapPoint,mapPoint,latitude,longitude,direction);
@@ -92,6 +112,14 @@ public class BusDijkstra {
             toReturn.add(new BusInPath(stopNodeList.get(i).shortName, stopNodeList.get(i).latitude, stopNodeList.get(i).longitude, stopNodeList.get(i+1).latitude, stopNodeList.get(i+1).longitude));
         }
 
+//       for(Edge edge: begin.edges){
+//           deleteEdge(edge, begin);
+//       }
+//        for(Edge edge: finish.edges){
+//            deleteEdge(edge, finish);
+//        }
+        deleteEdges(begin);
+        deleteEdges(finish);
         return toReturn;
     }
 
