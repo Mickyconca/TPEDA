@@ -12,10 +12,6 @@ public class QGram {
         QGram.N = n;
     }
 
-//    public void printTokens(final String str) {
-//        Map<String, Integer> map = getTokens(str);
-//        map.forEach((k, v) -> System.out.printf("%s    %d%n", k, v));
-//    }
 
     public static HashMap<String,Integer> getMap(String str){
         // Crea un string con los # necesarios
@@ -77,9 +73,9 @@ public class QGram {
         return (double)(sharedKeys*2)/totalKeys;
     }
 
-    public static void main(String[] args) {
-        System.out.println(similarity("CAFE P", "CAFE PALACIO"));
-        System.out.println(similarity("CAFE P", "CAFE ROMA"));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(similarity("CAFE P", "CAFE PALACIO"));
+//        System.out.println(similarity("CAFE P", "CAFE ROMA"));
+//    }
 
 }
