@@ -23,4 +23,8 @@ public class SearchLocation {
         }
         return foundLocations;
     }
+
+    private void sort(){
+
+    }
 }
