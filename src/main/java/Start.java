@@ -60,7 +60,6 @@ public class Start {
       double fromLng = Double.parseDouble(req.queryParams("fromLng"));
       double toLat = Double.parseDouble(req.queryParams("toLat"));
       double toLng = Double.parseDouble(req.queryParams("toLng"));
-      System.out.println(controller.findPath(fromLat, fromLng, toLat, toLng));
       return controller.findPath(fromLat, fromLng, toLat, toLng);
     }, json());
     get("/place", (req, res) -> {

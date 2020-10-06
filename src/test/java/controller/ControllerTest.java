@@ -26,7 +26,6 @@ class ControllerTest {
 
     Assertions.assertArrayEquals(new String[]{"A", "A", "B", "C"}, sPath.toArray());
 
-
   }
 
 }

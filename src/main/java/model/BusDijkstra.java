@@ -21,15 +21,6 @@ public class BusDijkstra {
         return nodes.get(id);
     }
 
-//    public int getSize(){
-//        return nodes.size();
-//    }
-//
-//    public void printEdges(String stopId){
-//        //System.out.println("Edges size: " + nodes.get(stopId).edges.size());     // Para que quede bonito
-//        nodes.get(stopId).edges.forEach(System.out::println);
-//    }
-
     private double distance(StopNode stop1, StopNode stop2){
         return Math.abs(stop1.latitude - stop2.latitude) + Math.abs(stop1.longitude - stop2.longitude);
     }
@@ -65,22 +56,18 @@ public class BusDijkstra {
         }
     }
 
-//    void deleteEdge(Edge toDelete, StopNode node) {
-//        if (node == null ) {
-//            System.out.println("Node doesn't exist");
-//            return;
-//        }
-//        node.edges.remove(toDelete);
-//        if(!isDirected){
-//            toDelete.target.edges.remove(toDelete);
-//        }
-//    }
-
     void deleteEdges(StopNode node){
+        Edge toRemove = null;
         for(Edge edge:node.edges){
-//            node.edges.remove(edge); // esto no me deja hacerlo
-//            if(!isDirected)
-                edge.target.edges.remove(edge);
+
+            for(Edge edgeTarget : edge.target.edges){
+                if(edgeTarget.target.equals(node)){
+                    toRemove = edgeTarget;
+                }
+            }
+            if(toRemove != null){
+                edge.target.edges.remove(toRemove);
+            }
         }
         node.edges=null;
     }
@@ -90,7 +77,7 @@ public class BusDijkstra {
         StopNode returnNode = new StopNode(mapPoint,mapPoint,latitude,longitude,direction);
 
         for (StopNode stopNode : nodes.values()) {
-            if (distance(returnNode, stopNode) < RADIO) {
+            if (distanceWalked(returnNode, stopNode) < RADIO) {
                 double weight = distanceWalked(returnNode, stopNode);
                 returnNode.edges.add(new Edge(stopNode, weight));
                 if (!isDirected) {                                      // No es dirigido pero se podria implementar en caso de querer que sea dirigido
@@ -108,18 +95,13 @@ public class BusDijkstra {
         List<StopNode> stopNodeList = pathDijkstra(begin, finish);
         List<BusInPath> toReturn = new ArrayList<>();
 
+        deleteEdges(begin);
+        deleteEdges(finish);
+
         for(int i=1; i< stopNodeList.size()-2; i+=2){
             toReturn.add(new BusInPath(stopNodeList.get(i).shortName, stopNodeList.get(i).latitude, stopNodeList.get(i).longitude, stopNodeList.get(i+1).latitude, stopNodeList.get(i+1).longitude));
         }
 
-//       for(Edge edge: begin.edges){
-//           deleteEdge(edge, begin);
-//       }
-//        for(Edge edge: finish.edges){
-//            deleteEdge(edge, finish);
-//        }
-        deleteEdges(begin);
-        deleteEdges(finish);
         return toReturn;
     }
 
@@ -161,6 +143,8 @@ public class BusDijkstra {
         if(endStop.previousNode == null){
             return list;
         }
+        System.out.println("Dijkstra " + endStop.previousNode.cost); // imprimo el costo final
+
         for(StopNode current = endStop; current != null; current = current.previousNode){       // O(m)
             list.add(current);
         }
@@ -169,7 +153,6 @@ public class BusDijkstra {
 
         return list;
     }
-
 
     public static class StopNode implements Comparable<StopNode>{
         String shortName;
