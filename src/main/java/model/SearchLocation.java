@@ -1,9 +1,6 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SearchLocation {
 
@@ -16,11 +13,15 @@ public class SearchLocation {
 
     public List<PlaceLocation> search(String searchTerm){
         List<PlaceLocation> foundLocations = new ArrayList<>();
+        double aux;
         for(PlaceLocation loc : locations.values()){
-            if(QGram.similarity(searchTerm, loc.getName()) > MIN_SIMILARITY){
+            aux = QGram.similarity(searchTerm, loc.getName());
+            if(aux > MIN_SIMILARITY){
+                loc.setSimilarity(aux);
                 foundLocations.add(loc);
             }
         }
+        foundLocations.sort((o1, o2) -> (int)(o1.getSimilarity() - o2.getSimilarity()));
         return foundLocations;
     }
 }

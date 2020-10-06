@@ -5,6 +5,7 @@ public class PlaceLocation {
   private double lat;
   private double lng;
   private String name;
+  private double similarity;
 
   public PlaceLocation(String name, double lat, double lng) {
     this.name = name;
@@ -22,5 +23,13 @@ public class PlaceLocation {
 
   public String getName() {
     return name;
+  }
+
+  public double getSimilarity() {
+    return similarity;
+  }
+
+  public void setSimilarity(double similarity) {
+    this.similarity = similarity;
   }
 }
