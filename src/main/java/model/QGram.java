@@ -55,8 +55,8 @@ public class QGram {
     }
 
     static double similarity(String str1, String str2){
-        HashMap<String,Integer> map1 = getMap(str1.toUpperCase());
-        HashMap<String,Integer> map2 = getMap(str2.toUpperCase());
+        HashMap<String,Integer> map1 = getMap(str1);
+        HashMap<String,Integer> map2 = getMap(str2);
         int totalKeys = 0;
         int sharedKeys = 0;
         for (Map.Entry<String, Integer> entry : map1.entrySet()) {
@@ -76,4 +76,10 @@ public class QGram {
         }
         return (double)(sharedKeys*2)/totalKeys;
     }
+
+    public static void main(String[] args) {
+        System.out.println(similarity("CAFE P", "CAFE PALACIO"));
+        System.out.println(similarity("CAFE P", "CAFE ROMA"));
+    }
+
 }
