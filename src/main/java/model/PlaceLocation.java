@@ -24,4 +24,6 @@ public class PlaceLocation {
   public void setSimilarity(double similarity) {
     this.similarity = similarity;
   }
+
+
 }
