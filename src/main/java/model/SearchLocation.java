@@ -4,7 +4,7 @@ import java.util.*;
 
 public class SearchLocation {
 
-    private Map<String,PlaceLocation> locations = new HashMap<>();
+    private static Map<String,PlaceLocation> locations = new HashMap<>();
     private static final double MIN_SIMILARITY = 0.4;
     private static final int LIST_SIZE = 10;
 
@@ -12,7 +12,7 @@ public class SearchLocation {
         locations.putIfAbsent(name,new PlaceLocation(name,lat,lng));
     }
 
-    public List<PlaceLocation> search(String searchTerm){                                                                                         // O(l + m + n + l * log(l) + 1)
+    public static List<PlaceLocation> search(String searchTerm){                                                                                         // O(l + m + n + l * log(l) + 1)
         List<PlaceLocation> foundLocations = new ArrayList<>();
         double aux;
         for(PlaceLocation loc : locations.values()){                                                                                              // O(l)

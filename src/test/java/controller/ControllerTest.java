@@ -1,7 +1,9 @@
 package controller;
 
 import model.BusDijkstra;
+import model.PlaceLocation;
 import model.QGram;
+import model.SearchLocation;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +22,6 @@ class ControllerTest {
     BusDijkstra graph = TestGraphFactory.createGraph();
 
     List<BusDijkstra.StopNode> path= graph.pathDijkstra(graph.getNode("A"), graph.getNode("C"));
-    System.out.println(path);
     List<String> sPath = new ArrayList<>();
     for (BusDijkstra.StopNode stopNode : path) {
       sPath.add(stopNode.toString());
@@ -36,10 +37,15 @@ class ControllerTest {
     Assertions.assertEquals("0,6000", String.format("%.4f", QGram.similarity("rubi","ruby")));
     Assertions.assertEquals("0,3077", String.format("%.4f", QGram.similarity("salesal","vale")));
     Assertions.assertEquals("0,4286", String.format("%.4f", QGram.similarity("salesal","alale")));
+    Assertions.assertEquals("0,6667", String.format("%.4f", QGram.similarity("salesal","salale")));
   }
 
   @Test
   void testSearchLocation() {
-    //TODO
+
+
+    SearchLocation locations = new SearchLocation();
+    List<PlaceLocation> foundLocations = locations.search("texto");
+
   }
 }
