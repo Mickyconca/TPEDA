@@ -11,7 +11,7 @@ public class TestSearchFactory {
         locations.addLocation("rub", 1.0, 1.0);
         locations.addLocation("ruvy", 1.0, 1.0);
         locations.addLocation("rubi", 1.0, 1.0);
-        locations.addLocation("pale", 1.0, 1.0);
+        locations.addLocation("vale", 1.0, 1.0);
         locations.addLocation("alale", 1.0, 1.0);
         locations.addLocation("salale", 1.0, 1.0);
 

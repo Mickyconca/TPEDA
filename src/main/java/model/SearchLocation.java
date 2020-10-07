@@ -23,6 +23,9 @@ public class SearchLocation {
             }
         }
         foundLocations.sort((o1, o2) -> (o2.getSimilarity() - o1.getSimilarity())>0? 1:(o2.getSimilarity() - o1.getSimilarity())==0? 0:-1);     // O(l * log(l))
-        return foundLocations.subList(0,LIST_SIZE);                                                                                             // O(1)
+        if(foundLocations.size() > LIST_SIZE){
+            foundLocations.subList(0,LIST_SIZE);                                                                                               // O(1)
+        }
+        return foundLocations;
     }
 }

@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Objects;
+
 public class PlaceLocation {
 
   private double lat;
@@ -25,5 +27,16 @@ public class PlaceLocation {
     this.similarity = similarity;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (!(o instanceof PlaceLocation)) return false;
+    PlaceLocation that = (PlaceLocation) o;
+    return Objects.equals(getName(), that.getName());
+  }
 
+  @Override
+  public String toString() {
+    return name;
+  }
 }
