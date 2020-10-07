@@ -7,7 +7,7 @@ public class BusDijkstra {
     private final boolean isDirected;
     private final Map<String, StopNode> nodes;            // como organizamos el mapa? Long por ahora seria el id de la parada
     private static final double RADIO = 0.005;
-
+    private static final double RADIOWALKED = 0.05;
     public BusDijkstra(boolean isDirected) {
         this.isDirected = isDirected;
         nodes = new HashMap<>();
@@ -81,7 +81,7 @@ public class BusDijkstra {
         StopNode returnNode = new StopNode(mapPoint,mapPoint,latitude,longitude,direction);
 
         for (StopNode stopNode : nodes.values()) {
-            if (distanceWalked(returnNode, stopNode) < RADIO) {
+            if (distanceWalked(returnNode, stopNode) < RADIOWALKED) {
                 double weight = distanceWalked(returnNode, stopNode);
                 returnNode.edges.add(new Edge(stopNode, weight));
                 if (!isDirected) {                                      // No es dirigido pero se podria implementar en caso de querer que sea dirigido
