@@ -49,7 +49,7 @@ public class QGram {
         }
     }
 
-    static double similarity(String str1, String str2){                     // O(n + m)
+    static public double similarity(String str1, String str2){                     // O(n + m)
         HashMap<String,Integer> map1 = getMap(str1);
         HashMap<String,Integer> map2 = getMap(str2);
         int totalKeys = 0;
