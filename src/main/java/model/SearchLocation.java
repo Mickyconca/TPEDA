@@ -5,7 +5,7 @@ import java.util.*;
 public class SearchLocation {
 
     private Map<String,PlaceLocation> locations = new HashMap<>();
-    private static final double MIN_SIMILARITY = 0.5;
+    private static final double MIN_SIMILARITY = 0.4;
     private static final int LIST_SIZE = 10;
 
     public void addLocation(String name, double lat, double lng){

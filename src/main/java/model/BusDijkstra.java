@@ -210,6 +210,19 @@ public class BusDijkstra {
         }
 
         @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (!(o instanceof Edge)) return false;
+            Edge edge = (Edge) o;
+            return Objects.equals(target, edge.target);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(target, weight);
+        }
+
+        @Override
         public String toString() {
             return target.toString();
         }
