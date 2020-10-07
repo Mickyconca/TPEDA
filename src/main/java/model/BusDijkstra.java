@@ -60,7 +60,7 @@ public class BusDijkstra {
         }
     }
 
-    void deleteEdges(StopNode node){
+    void deleteEdges(StopNode node){    // O(n*m)
         Edge toRemove = null;
         for(Edge edge:node.edges){
 
@@ -93,18 +93,19 @@ public class BusDijkstra {
         return returnNode;
     }
 
-    public List<BusInPath> path(double fromLat, double fromLng, double toLat, double toLng){
+    public List<BusInPath> path(double fromLat, double fromLng, double toLat, double toLng){ // O(n*m)
         StopNode begin = addMapNode("begin",fromLat, fromLng);
         StopNode finish = addMapNode("finish",toLat, toLng);
         List<StopNode> stopNodeList = pathDijkstra(begin, finish);
         List<BusInPath> toReturn = new ArrayList<>();
 
-        deleteEdges(begin);
-        deleteEdges(finish);
+        deleteEdges(begin); // O(n*m)
+        deleteEdges(finish); // O(n*m)
 
         for(int i=1; i< stopNodeList.size()-2; i+=2){
             toReturn.add(new BusInPath(stopNodeList.get(i).shortName, stopNodeList.get(i).latitude, stopNodeList.get(i).longitude, stopNodeList.get(i+1).latitude, stopNodeList.get(i+1).longitude));
         }
+        // O(x) , x es un numero chico => no se si habria que tenerlo en cuenta
 
         return toReturn;
     }
@@ -113,7 +114,7 @@ public class BusDijkstra {
     public List<StopNode> pathDijkstra(StopNode startStop, StopNode endStop){     // O((n+e) * log(n) + m)
         nodes.values().forEach(node -> {node.cost = Double.MAX_VALUE;
                                         node.visited = false;
-                                        node.previousNode = null;});
+                                        node.previousNode = null;});        // O(n)
         startStop.visited = false;
         startStop.previousNode = null;
         endStop.cost = Double.MAX_VALUE;
@@ -131,7 +132,7 @@ public class BusDijkstra {
             node.visited = true;
             //System.out.println(node.shortName + ": " + node.cost);
 
-            for(Edge edge : node.edges){
+            for(Edge edge : node.edges){            // O((n+e) * log(n)
                 double newCost = node.cost + edge.weight;
                 StopNode nextNode = edge.target;
                 if(newCost < nextNode.cost) {
