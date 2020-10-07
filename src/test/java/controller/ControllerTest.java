@@ -1,5 +1,5 @@
-package controller;
 
+import controller.TestGraphFactory;
 import model.BusDijkstra;
 import model.QGram;
 import org.junit.jupiter.api.Assertions;
@@ -32,10 +32,10 @@ class ControllerTest {
 
   @Test
   void testSimilarity() {
-    Assertions.assertEquals("0,6000", String.format("%.4f", QGram.similarity("cafe p","cafe palacio")));
-    Assertions.assertEquals("0,6000", String.format("%.4f", QGram.similarity("rubi","ruby")));
-    Assertions.assertEquals("0,3077", String.format("%.4f", QGram.similarity("salesal","vale")));
-    Assertions.assertEquals("0,4286", String.format("%.4f", QGram.similarity("salesal","alale")));
+    Assertions.assertEquals("0.6000", String.format("%.4f", QGram.similarity("cafe p","cafe palacio")));
+    Assertions.assertEquals("0.6000", String.format("%.4f", QGram.similarity("rubi","ruby")));
+    Assertions.assertEquals("0.3077", String.format("%.4f", QGram.similarity("salesal","vale")));
+    Assertions.assertEquals("0.4286", String.format("%.4f", QGram.similarity("salesal","alale")));
   }
 
   @Test
