@@ -26,7 +26,11 @@ public class BusDijkstra {
     }
 
     private double distanceWalked(StopNode stop1, StopNode stop2){
-        return distance(stop1,stop2) * 2;
+        return distance(stop1,stop2) * 1.5;
+    }
+
+    private double distanceCombination(StopNode stop1, StopNode stop2){
+        return distance(stop1,stop2) * 2.5;
     }
 
     public void addEdges(){
@@ -36,8 +40,8 @@ public class BusDijkstra {
                 if(vector[i].equals(vector[j])){
                     addEdge(vector[i].stopId, vector[j].stopId, distance(vector[i], vector[j]));
                 }
-                else if(distance(vector[i], vector[j]) < RADIO){
-                    addEdge(vector[i].stopId, vector[j].stopId, distanceWalked(vector[i], vector[j]));
+                else if(distanceCombination(vector[i], vector[j]) < RADIO){
+                    addEdge(vector[i].stopId, vector[j].stopId, distanceCombination(vector[i], vector[j]));
                 }
             }
         }
