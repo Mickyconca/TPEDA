@@ -13,14 +13,6 @@ public class PlaceLocation {
     this.lng = lng;
   }
 
-  public double getLat() {
-    return lat;
-  }
-
-  public double getLng() {
-    return lng;
-  }
-
   public String getName() {
     return name;
   }

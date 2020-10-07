@@ -1,5 +1,4 @@
 import model.BusDijkstra;
-import model.BusInPath;
 import model.SearchLocation;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -73,7 +72,7 @@ public class Start {
 
   }
 
-  public static void cors() {
+  private static void cors() {
     before((req, res) -> {
       res.header("Access-Control-Allow-Methods", "*");
       res.header("Access-Control-Allow-Origin", "*");

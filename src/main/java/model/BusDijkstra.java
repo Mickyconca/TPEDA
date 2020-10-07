@@ -60,11 +60,11 @@ public class BusDijkstra {
         }
     }
 
-    void deleteEdges(StopNode node){    // O(n*m)
+    private void deleteEdges(StopNode node){    // O(e*k)
         Edge toRemove = null;
-        for(Edge edge:node.edges){
+        for(Edge edge:node.edges){                          // O(e)
 
-            for(Edge edgeTarget : edge.target.edges){
+            for(Edge edgeTarget : edge.target.edges){       // O(k)
                 if(edgeTarget.target.equals(node)){
                     toRemove = edgeTarget;
                 }
@@ -76,11 +76,11 @@ public class BusDijkstra {
         node.edges=null;
     }
 
-    private StopNode addMapNode(String mapPoint, double latitude, double longitude){
+    private StopNode addMapNode(String mapPoint, double latitude, double longitude){            // O(n)
         int direction = 0;                                                          // No me importa la direccion
         StopNode returnNode = new StopNode(mapPoint,mapPoint,latitude,longitude,direction);
 
-        for (StopNode stopNode : nodes.values()) {
+        for (StopNode stopNode : nodes.values()) {                          // O(n)
             if (distanceWalked(returnNode, stopNode) < RADIOWALKED) {
                 double weight = distanceWalked(returnNode, stopNode);
                 returnNode.edges.add(new Edge(stopNode, weight));
@@ -93,14 +93,14 @@ public class BusDijkstra {
         return returnNode;
     }
 
-    public List<BusInPath> path(double fromLat, double fromLng, double toLat, double toLng){ // O(n*m)
-        StopNode begin = addMapNode("begin",fromLat, fromLng);
-        StopNode finish = addMapNode("finish",toLat, toLng);
-        List<StopNode> stopNodeList = pathDijkstra(begin, finish);
+    public List<BusInPath> path(double fromLat, double fromLng, double toLat, double toLng){    // O((n+e) * log(n) + 2m + 3n + 2e*k + x)
+        StopNode begin = addMapNode("begin",fromLat, fromLng);                         // O(n)
+        StopNode finish = addMapNode("finish",toLat, toLng);                           // O(n)
+        List<StopNode> stopNodeList = pathDijkstra(begin, finish);                              // O((n+e) * log(n) + 2m + n)
         List<BusInPath> toReturn = new ArrayList<>();
 
-        deleteEdges(begin); // O(n*m)
-        deleteEdges(finish); // O(n*m)
+        deleteEdges(begin);                                                                     // O(e*k)
+        deleteEdges(finish);                                                                    // O(e*k)
 
         for(int i=1; i< stopNodeList.size()-2; i+=2){
             toReturn.add(new BusInPath(stopNodeList.get(i).shortName, stopNodeList.get(i).latitude, stopNodeList.get(i).longitude, stopNodeList.get(i+1).latitude, stopNodeList.get(i+1).longitude));
@@ -111,28 +111,30 @@ public class BusDijkstra {
     }
 
     // pathDijsktra recibe el punto de inicio y final como nodos StopNode
-    public List<StopNode> pathDijkstra(StopNode startStop, StopNode endStop){     // O((n+e) * log(n) + m)
+    public List<StopNode> pathDijkstra(StopNode startStop, StopNode endStop){                    // O((n+e) * log(n) + 2m + n)
         nodes.values().forEach(node -> {node.cost = Double.MAX_VALUE;
                                         node.visited = false;
-                                        node.previousNode = null;});        // O(n)
+                                        node.previousNode = null;});                              // O(n)
+
+        startStop.cost = 0;
         startStop.visited = false;
         startStop.previousNode = null;
+
         endStop.cost = Double.MAX_VALUE;
         endStop.visited = false;
         endStop.previousNode = null;
 
-        startStop.cost = 0;
+
         PriorityQueue<StopNode> queue = new PriorityQueue<>();
         queue.add(startStop);
 
-        while(!queue.isEmpty()){
+        while(!queue.isEmpty()){                                                               // O((n+e) * log(n)
             StopNode node = queue.remove();
 
             if(node.visited) continue;
             node.visited = true;
-            //System.out.println(node.shortName + ": " + node.cost);
 
-            for(Edge edge : node.edges){            // O((n+e) * log(n)
+            for(Edge edge : node.edges){
                 double newCost = node.cost + edge.weight;
                 StopNode nextNode = edge.target;
                 if(newCost < nextNode.cost) {
@@ -143,18 +145,16 @@ public class BusDijkstra {
             }
         }
 
-        // la menor dist a endStop
         List<StopNode> list = new ArrayList<>();
         if(endStop.previousNode == null){
             return list;
         }
-        System.out.println("Dijkstra " + endStop.previousNode.cost); // imprimo el costo final
 
         for(StopNode current = endStop; current != null; current = current.previousNode){       // O(m)
             list.add(current);
         }
 
-        Collections.reverse(list);          // se puede usar???     // O(m)?
+        Collections.reverse(list);                                                             // O(m)
 
         return list;
     }

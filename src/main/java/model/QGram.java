@@ -2,7 +2,6 @@ package model;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 public class QGram {
 
@@ -13,7 +12,7 @@ public class QGram {
     }
 
 
-    public static HashMap<String,Integer> getMap(String str){
+    private static HashMap<String,Integer> getMap(String str){
         // Crea un string con los # necesarios
         StringBuilder string = new StringBuilder();
         appends(string);
@@ -50,12 +49,12 @@ public class QGram {
         }
     }
 
-    static double similarity(String str1, String str2){
+    static double similarity(String str1, String str2){                     // O(n + m)
         HashMap<String,Integer> map1 = getMap(str1);
         HashMap<String,Integer> map2 = getMap(str2);
         int totalKeys = 0;
         int sharedKeys = 0;
-        for (Map.Entry<String, Integer> entry : map1.entrySet()) {
+        for (Map.Entry<String, Integer> entry : map1.entrySet()) {          // O(n)
             if(map2.containsKey(entry.getKey())){
                 int comparison = entry.getValue() - map2.get(entry.getKey());
                 if(comparison <= 0){
@@ -67,15 +66,10 @@ public class QGram {
             }
             totalKeys += entry.getValue();
         }
-        for(Map.Entry<String, Integer> entry : map2.entrySet()){
+        for(Map.Entry<String, Integer> entry : map2.entrySet()){          // O(m)
             totalKeys += entry.getValue();
         }
         return (double)(sharedKeys*2)/totalKeys;
     }
-
-//    public static void main(String[] args) {
-//        System.out.println(similarity("CAFE P", "CAFE PALACIO"));
-//        System.out.println(similarity("CAFE P", "CAFE ROMA"));
-//    }
 
 }

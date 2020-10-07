@@ -3,7 +3,6 @@ import model.BusInPath;
 import model.PlaceLocation;
 import model.SearchLocation;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class Controller {
@@ -16,11 +15,11 @@ public class Controller {
     this.location = location;
   }
 
-  public List<BusInPath> findPath(double fromLat, double fromLng, double toLat, double toLng) {
+  public List<BusInPath> findPath(double fromLat, double fromLng, double toLat, double toLng) {   // O((n+e) * log(n))    Orden de la complejidad de findPath
     return bus.path(fromLat, fromLng, toLat, toLng);
   }
 
-  public List<PlaceLocation> findPlaces(String searchTerm) {
+  public List<PlaceLocation> findPlaces(String searchTerm) {                                     // O(l * log(l))    Orden de la complejidad de findPlaces
     return location.search(searchTerm);
   }
 }

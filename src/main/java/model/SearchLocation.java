@@ -12,18 +12,17 @@ public class SearchLocation {
         locations.putIfAbsent(name,new PlaceLocation(name,lat,lng));
     }
 
-    public List<PlaceLocation> search(String searchTerm){
+    public List<PlaceLocation> search(String searchTerm){                                                                                         // O(l + m + n + l * log(l) + 1)
         List<PlaceLocation> foundLocations = new ArrayList<>();
         double aux;
-        for(PlaceLocation loc : locations.values()){
-            aux = QGram.similarity(searchTerm.toUpperCase(), loc.getName().toUpperCase());
+        for(PlaceLocation loc : locations.values()){                                                                                              // O(l)
+            aux = QGram.similarity(searchTerm.toUpperCase(), loc.getName().toUpperCase());                                                        // O(m + n)
             if(aux - MIN_SIMILARITY >= 0){
                 loc.setSimilarity(aux);
                 foundLocations.add(loc);
-                System.out.println(loc.getName()+ " " + loc.getSimilarity() + " aux: " + aux);
             }
         }
-        foundLocations.sort((o1, o2) -> (o2.getSimilarity() - o1.getSimilarity())>0? 1:(o2.getSimilarity() - o1.getSimilarity())==0? 0:-1);
-        return foundLocations.subList(0,LIST_SIZE);
+        foundLocations.sort((o1, o2) -> (o2.getSimilarity() - o1.getSimilarity())>0? 1:(o2.getSimilarity() - o1.getSimilarity())==0? 0:-1);     // O(l * log(l))
+        return foundLocations.subList(0,LIST_SIZE);                                                                                             // O(1)
     }
 }
