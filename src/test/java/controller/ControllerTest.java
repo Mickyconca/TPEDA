@@ -11,9 +11,9 @@ class ControllerTest {
 
   @Test
   void testDijkstra(){
-    BusDijkstra graph = TestGraphFactory.createGraph();
+    BusDijkstra testgraph = TestGraphFactory.createGraph();
 
-    List<BusDijkstra.StopNode> path= graph.pathDijkstra(graph.getNode("A"), graph.getNode("C"));
+    List<BusDijkstra.StopNode> path= testgraph.pathDijkstra(testgraph.getNode("A"), testgraph.getNode("C"));
     List<String> sPath = new ArrayList<>();
     for (BusDijkstra.StopNode stopNode : path) {
       sPath.add(stopNode.toString());
@@ -22,7 +22,7 @@ class ControllerTest {
     Assertions.assertArrayEquals(new String[]{"A", "A", "B", "B", "C"}, sPath.toArray());       // stop ids: "A", "A3", "B", "B1", "C"
     sPath.clear();
 
-    List<BusInPath> path2 = graph.path(0.9736, 1.0069,1.0444, 1.0106);    // va a elegir caminar antes que hacer una combinacion de mas
+    List<BusInPath> path2 = testgraph.path(0.9736, 1.0069,1.0444, 1.0106);    // va a elegir caminar antes que hacer una combinacion de mas
 
     for (BusInPath bus : path2) {
       sPath.add(bus.name);

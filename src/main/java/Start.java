@@ -32,7 +32,6 @@ public class Start {
       graph.addNode(record.get("stop_id"),record.get("route_short_name"), Double.parseDouble(record.get("stop_lat")), Double.parseDouble(record.get("stop_lon")), Integer.parseInt(record.get("direction_id")));
     }
 
-    inBus.close();
 
     // se lee el archivo de etaciones de subte
     String subwayFile= "/estaciones-de-subte.csv"; InputStream isSubway =
@@ -46,9 +45,12 @@ public class Start {
       graph.addNode(record.get("id"), record.get("linea"), Double.parseDouble(record.get("lat")), Double.parseDouble(record.get("long")), 1);  // no importa la direccion ya que va y vuelve por el mismo lado
     }
 
+    graph.addEdges();
+    // se cierran ambos archivos
+    inBus.close();
     inSubway.close();
 
-    graph.addEdges();
+
 
     // se lee el archivo de centros culturales
     String culturalPlacesFile= "/espacios-culturales.csv"; InputStream isCulturalPlaces =

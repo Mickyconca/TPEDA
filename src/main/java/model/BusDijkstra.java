@@ -6,8 +6,7 @@ public class BusDijkstra {
 
     private final boolean isDirected;
     private final Map<String, StopNode> nodes;            // como organizamos el mapa? Long por ahora seria el id de la parada
-    private static final double RADIO = 0.005;
-    private static final double RADIOWALKED = 0.05;
+    private static final double RADIO = 0.007;         // radio de 5 cuadras
     public BusDijkstra(boolean isDirected) {
         this.isDirected = isDirected;
         nodes = new HashMap<>();
@@ -25,38 +24,28 @@ public class BusDijkstra {
         return Math.abs(stop1.latitude - stop2.latitude) + Math.abs(stop1.longitude - stop2.longitude);
     }
 
-    private double distanceWalked(StopNode stop1, StopNode stop2){
-        return distance(stop1,stop2) * 1.5;
-    }
-
-    private double distanceCombination(StopNode stop1, StopNode stop2){
-        return distance(stop1,stop2) * 2.5;
-    }
-
     public void addEdges(){
         StopNode[] vector = nodes.values().toArray(new StopNode[0]);
         for (int i = 0; i < vector.length-1; i++) {
             for (int j = i+1; j < vector.length; j++){
+                double dist = distance(vector[i], vector[j]);
                 if(vector[i].equals(vector[j])){
-                    addEdge(vector[i].stopId, vector[j].stopId, distance(vector[i], vector[j]));
+                    addEdge(vector[i], vector[j], dist);
                 }
-                else if(distanceCombination(vector[i], vector[j]) < RADIO){
-                    addEdge(vector[i].stopId, vector[j].stopId, distanceCombination(vector[i], vector[j]));
+                else if(dist < RADIO){
+                    addEdge(vector[i], vector[j], dist + 2);
                 }
             }
         }
     }
 
-    private void addEdge(String stop1, String stop2, double weight){
-        StopNode node1 = nodes.get(stop1);
-        StopNode node2 = nodes.get(stop2);
-
-        if(node1 == null || node2 == null){
+    private void addEdge(StopNode stop1, StopNode stop2, double weight){
+        if(stop1 == null || stop2 == null){
             return;
         }
-        node1.edges.add(new Edge(node2, weight));
+        stop1.edges.add(new Edge(stop2, weight));
         if (!isDirected) {                                      // No es dirigido pero se podria implementar en caso de querer que sea dirigido
-            node2.edges.add(new Edge(node1, weight));
+            stop2.edges.add(new Edge(stop1, weight));
         }
     }
 
@@ -81,8 +70,9 @@ public class BusDijkstra {
         StopNode returnNode = new StopNode(mapPoint,mapPoint,latitude,longitude,direction);
 
         for (StopNode stopNode : nodes.values()) {                          // O(n)
-            if (distanceWalked(returnNode, stopNode) < RADIOWALKED) {
-                double weight = distanceWalked(returnNode, stopNode);
+            double dist = distance(returnNode, stopNode);
+            if (dist < RADIO) {
+                double weight = dist + 1;
                 returnNode.edges.add(new Edge(stopNode, weight));
                 if (!isDirected) {                                      // No es dirigido pero se podria implementar en caso de querer que sea dirigido
                     stopNode.edges.add(new Edge(returnNode, weight));
