@@ -8,16 +8,17 @@ public class TestGraphFactory {
 
         BusDijkstra graph = new BusDijkstra( false);
         graph.addNode("A", "A",   1.0, 1.0, 1);
-        graph.addNode("A1", "A",   1.0001, 1.0, 1);
-        graph.addNode("A", "A",   1.0, 1.0, 0);
-        graph.addNode("B", "B", 1.001, 1.001, 1);
-        graph.addNode("C", "C", 1.002, 1.001,1);
-        graph.addNode("D", "D", 2.34, 3.5, 1);
-        graph.addNode("E", "E", 7.89, 5.5, 1);
-        graph.addNode("F", "F", 7.75, 5.43, 1);
-        graph.addNode("G", "G", 6.45, 5.4, 1);
+        graph.addNode("A1", "A",   1.002, 1.002, 1);
+        graph.addNode("A2", "A",   1.004, 1.004, 1);
+        graph.addNode("A3", "A", 1.006, 1.006, 1);      // |lat1 - lat2|+ |long1 - long2| < 0.005  distance
+        graph.addNode("B", "B", 1.0065, 1.0069,1);        // |lat1 - lat2|+ |long1 - long2| < 0.002  distanceCombination
+        graph.addNode("B1", "B", 1.0075, 1.0078, 1);
+        graph.addNode("C", "C", 1.0085, 1.0078, 1);
+        graph.addNode("-A4", "A", 1.007, 1.0069, 0);     // no deberia elegirlo porque hace distanceCombination por tener diferente direccion
+        graph.addNode("-A5", "A", 1.008, 1.0069, 0);
 
-        graph.addEdges();       // menor a 0.001
+
+        graph.addEdges();
 
         return graph;
     }
