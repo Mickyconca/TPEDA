@@ -1,9 +1,6 @@
 package controller;
 
-import model.BusDijkstra;
-import model.PlaceLocation;
-import model.QGram;
-import model.SearchLocation;
+import model.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -13,22 +10,24 @@ import java.util.List;
 class ControllerTest {
 
   @Test
-  void asd() {
-    System.out.println("TODO");
-  }
-
-  @Test
   void testDijkstra(){
     BusDijkstra graph = TestGraphFactory.createGraph();
 
     List<BusDijkstra.StopNode> path= graph.pathDijkstra(graph.getNode("A"), graph.getNode("C"));
-    System.out.println(path);
     List<String> sPath = new ArrayList<>();
     for (BusDijkstra.StopNode stopNode : path) {
       sPath.add(stopNode.toString());
     }
 
     Assertions.assertArrayEquals(new String[]{"A", "A", "B", "B", "C"}, sPath.toArray());       // stop ids: "A", "A3", "B", "B1", "C"
+    sPath.clear();
+
+    List<BusInPath> path2 = graph.path(0.9736, 1.0069,1.0444, 1.0106);    // va a elegir caminar antes que hacer una combinacion de mas
+
+    for (BusInPath bus : path2) {
+      sPath.add(bus.name);
+    }
+    Assertions.assertArrayEquals(new String[]{"B", "C"}, sPath.toArray());       // stop ids: caminar, "B", "B1", "C", "C3", caminar
 
   }
 

@@ -15,4 +15,8 @@ public class BusInPath {
     this.toLng = toLng;
   }
 
+  @Override
+  public String toString() {
+    return name;
+  }
 }
