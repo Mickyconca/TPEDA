@@ -14,42 +14,60 @@ import static utils.Json.json;
 public class Start {
 
   public static void main(String[] args) throws IOException {
-    // se lee el archivo de paradas
-    String fileName= "/paradas-de-colectivo.csv"; InputStream is =
-            Start.class.getResourceAsStream(fileName );
 
-    Reader in = new InputStreamReader(is);
-    Iterable<CSVRecord> records = CSVFormat.DEFAULT
+    // se lee el archivo de paradas
+    String busStopsFile= "/paradas-de-colectivo.csv"; InputStream isBus =
+            Start.class.getResourceAsStream(busStopsFile);
+
+    Reader inBus = new InputStreamReader(isBus);
+    Iterable<CSVRecord> recordsBus = CSVFormat.DEFAULT
             .withFirstRecordAsHeader()
-            .parse(in);
+            .parse(inBus);
 
     // se crea el grafo
-    BusDijkstra graph = new BusDijkstra(false); // para mi tendria que ser siempre dirigido
+    BusDijkstra graph = new BusDijkstra(false);
 
     // voy agregando los nodos
-    for (CSVRecord record : records) {
+    for (CSVRecord record : recordsBus) {
       graph.addNode(record.get("stop_id"),record.get("route_short_name"), Double.parseDouble(record.get("stop_lat")), Double.parseDouble(record.get("stop_lon")), Integer.parseInt(record.get("direction_id")));
     }
+
+
+    // se lee el archivo de etaciones de subte
+    String subwayFile= "/estaciones-de-subte.csv"; InputStream isSubway =
+            Start.class.getResourceAsStream(subwayFile);
+    Reader inSubway = new InputStreamReader(isSubway);
+    Iterable<CSVRecord> recordsSubway = CSVFormat.DEFAULT
+            .withFirstRecordAsHeader()
+            .parse(inSubway);
+
+    for (CSVRecord record : recordsSubway) {
+      graph.addNode(record.get("id"), record.get("linea"), Double.parseDouble(record.get("lat")), Double.parseDouble(record.get("long")), 1);  // no importa la direccion ya que va y vuelve por el mismo lado
+    }
+
     graph.addEdges();
-//    System.out.println(graph.getSize());
-//    graph.printEdges("204598");    // Aca esta el print Aristas
+    // se cierran ambos archivos
+    inBus.close();
+    inSubway.close();
+
 
 
     // se lee el archivo de centros culturales
-    String fileName2= "/espacios-culturales.csv"; InputStream is2 =
-            Start.class.getResourceAsStream(fileName2);
+    String culturalPlacesFile= "/espacios-culturales.csv"; InputStream isCulturalPlaces =
+            Start.class.getResourceAsStream(culturalPlacesFile);
 
-    Reader in2 = new InputStreamReader(is2);
-    Iterable<CSVRecord> records2 = CSVFormat.DEFAULT
+    Reader inCulturalPlaces = new InputStreamReader(isCulturalPlaces);
+    Iterable<CSVRecord> recordsCulturalPlaces = CSVFormat.DEFAULT
             .withFirstRecordAsHeader()
-            .parse(in2);
+            .parse(inCulturalPlaces);
 
     SearchLocation locations = new SearchLocation();
 
-    for (CSVRecord record : records2) {
+    for (CSVRecord record : recordsCulturalPlaces) {
       locations.addLocation(record.get("establecimiento"), Double.parseDouble(record.get("latitud")), Double.parseDouble(record.get("longitud")));
     }
-    in2.close();
+    inCulturalPlaces.close();
+
 
     Controller controller = new Controller(graph,locations);
     cors();
@@ -65,11 +83,6 @@ public class Start {
       String searchTerm = req.queryParams("searchTerm");
       return controller.findPlaces(searchTerm);
     }, json());
-
-
-
-
-
   }
 
   private static void cors() {
