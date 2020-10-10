@@ -21,7 +21,7 @@ public class BusDijkstra {
     }
 
     private double distance(StopNode stop1, StopNode stop2){
-        return Math.abs(stop1.latitude - stop2.latitude) + Math.abs(stop1.longitude - stop2.longitude);
+        return Math.sqrt(Math.pow(stop1.latitude-stop2.latitude, 2) + Math.pow(stop1.longitude-stop2.longitude, 2));
     }
 
     public void addEdges(){
