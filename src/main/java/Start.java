@@ -43,6 +43,7 @@ public class Start {
 
     for (CSVRecord record : recordsSubway) {
       graph.addNode(record.get("id"), record.get("linea"), Double.parseDouble(record.get("lat")), Double.parseDouble(record.get("long")), 1);  // no importa la direccion ya que va y vuelve por el mismo lado
+      //System.out.println(String.format("%s, %s, %f, %f", record.get("id"), record.get("linea"), Double.parseDouble(record.get("lat")), Double.parseDouble(record.get("long"))));
     }
 
     graph.addEdges();

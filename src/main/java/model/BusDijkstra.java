@@ -5,7 +5,7 @@ import java.util.*;
 public class BusDijkstra {
 
     private final boolean isDirected;
-    private final Map<String, StopNode> nodes;            // como organizamos el mapa? Long por ahora seria el id de la parada
+    private final Map<String, StopNode> nodes;
     private static final double RADIO = 0.007;         // radio de 5 cuadras
     public BusDijkstra(boolean isDirected) {
         this.isDirected = isDirected;
@@ -72,7 +72,7 @@ public class BusDijkstra {
         for (StopNode stopNode : nodes.values()) {                          // O(n)
             double dist = distance(returnNode, stopNode);
             if (dist < RADIO) {
-                double weight = dist + 1;
+                double weight = dist+1;
                 returnNode.edges.add(new Edge(stopNode, weight));
                 if (!isDirected) {                                      // No es dirigido pero se podria implementar en caso de querer que sea dirigido
                     stopNode.edges.add(new Edge(returnNode, weight));
@@ -90,7 +90,7 @@ public class BusDijkstra {
         List<BusInPath> toReturn = new ArrayList<>();
 
         deleteEdges(begin);                                                                     // O(e*k)
-        deleteEdges(finish);                                                                    // O(e*k)
+        deleteEdges(finish);                                                                    // O(e*k
 
         for(int i=1; i< stopNodeList.size()-2; i+=2){
             toReturn.add(new BusInPath(stopNodeList.get(i).shortName, stopNodeList.get(i).latitude, stopNodeList.get(i).longitude, stopNodeList.get(i+1).latitude, stopNodeList.get(i+1).longitude));
@@ -186,7 +186,7 @@ public class BusDijkstra {
 
         @Override
         public int compareTo(StopNode o) {
-            return 0;
+            return Double.compare(cost,o.cost);
         }       // aca tendriamos que comparar distancias??
 
         @Override
