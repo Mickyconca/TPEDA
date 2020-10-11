@@ -12,7 +12,7 @@ public class BusDijkstra {
         nodes = new HashMap<>();
     }
 
-    public void addNode(String stopId, String shortName, double latitude, double longitude, int direction){ //lo cree public para poder acceder del Start
+    public void addNode(String stopId, String shortName, double latitude, double longitude, int direction){
         nodes.putIfAbsent(stopId, new StopNode(stopId, shortName, latitude, longitude, direction));
     }
 
@@ -44,7 +44,7 @@ public class BusDijkstra {
             return;
         }
         stop1.edges.add(new Edge(stop2, weight));
-        if (!isDirected) {                                      // No es dirigido pero se podria implementar en caso de querer que sea dirigido
+        if (!isDirected) {
             stop2.edges.add(new Edge(stop1, weight));
         }
     }
@@ -66,7 +66,7 @@ public class BusDijkstra {
     }
 
     private StopNode addMapNode(String mapPoint, double latitude, double longitude){            // O(n)
-        int direction = 0;                                                          // No me importa la direccion
+        int direction = 0;                                                          // No importa la direccion
         StopNode returnNode = new StopNode(mapPoint,mapPoint,latitude,longitude,direction);
 
         for (StopNode stopNode : nodes.values()) {                          // O(n)
@@ -74,7 +74,7 @@ public class BusDijkstra {
             if (dist < RADIO) {
                 double weight = dist+1;
                 returnNode.edges.add(new Edge(stopNode, weight));
-                if (!isDirected) {                                      // No es dirigido pero se podria implementar en caso de querer que sea dirigido
+                if (!isDirected) {
                     stopNode.edges.add(new Edge(returnNode, weight));
                 }
             }
@@ -171,6 +171,10 @@ public class BusDijkstra {
             edges = new HashSet<>();
         }
 
+        public String getStopId() {
+            return stopId;
+        }
+
         @Override
         public int hashCode(){
             return Objects.hash(shortName);
@@ -187,7 +191,7 @@ public class BusDijkstra {
         @Override
         public int compareTo(StopNode o) {
             return Double.compare(cost,o.cost);
-        }       // aca tendriamos que comparar distancias??
+        }
 
         @Override
         public String toString() {

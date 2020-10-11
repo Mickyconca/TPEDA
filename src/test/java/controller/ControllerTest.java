@@ -12,23 +12,27 @@ class ControllerTest {
   @Test
   void testDijkstra(){
     BusDijkstra testgraph = TestGraphFactory.createGraph();
-
     List<BusDijkstra.StopNode> path= testgraph.pathDijkstra(testgraph.getNode("A"), testgraph.getNode("C"));
+
     List<String> sPath = new ArrayList<>();
     for (BusDijkstra.StopNode stopNode : path) {
       sPath.add(stopNode.toString());
     }
+    Assertions.assertArrayEquals(new String[]{"A", "A", "B", "B", "C"}, sPath.toArray());   // shortName
 
-    Assertions.assertArrayEquals(new String[]{"A", "A", "B", "B", "C"}, sPath.toArray());       // stop ids: "A", "A3", "B", "B1", "C"
+    String[] sAux = new String[]{"A", "A3", "B", "B1", "C"};
+    int i=0;
+    for (BusDijkstra.StopNode stopNode : path) {
+      Assertions.assertEquals(sAux[i++], stopNode.getStopId());     // stopId
+    }
     sPath.clear();
 
-    List<BusInPath> path2 = testgraph.path(0.9736, 1.0069,1.0444, 1.0106);    // va a elegir caminar antes que hacer una combinacion de mas
-
+    List<BusInPath> path2 = testgraph.path(3.9995, 4.0,8.0, 8.0065);    // va a elegir caminar antes que hacer una combinacion de mas
+                                                                                                      // es decir, no se toma la linea A cuando puede caminar hasta la B
     for (BusInPath bus : path2) {
       sPath.add(bus.name);
     }
-    Assertions.assertArrayEquals(new String[]{"B", "C"}, sPath.toArray());       // stop ids: caminar, "B", "B1", "C", "C3", caminar
-
+    Assertions.assertArrayEquals(new String[]{"B", "C"}, sPath.toArray());       // caminar, "B", "B1", "C", "C3", caminar
   }
 
   @Test

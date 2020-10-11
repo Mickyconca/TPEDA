@@ -15,6 +15,10 @@ public class Start {
 
   public static void main(String[] args) throws IOException {
 
+    // se crea el grafo
+    BusDijkstra graph = new BusDijkstra(false);
+
+
     // se lee el archivo de paradas
     String busStopsFile= "/paradas-de-colectivo.csv"; InputStream isBus =
             Start.class.getResourceAsStream(busStopsFile);
@@ -24,13 +28,11 @@ public class Start {
             .withFirstRecordAsHeader()
             .parse(inBus);
 
-    // se crea el grafo
-    BusDijkstra graph = new BusDijkstra(false);
-
     // voy agregando los nodos
     for (CSVRecord record : recordsBus) {
       graph.addNode(record.get("stop_id"),record.get("route_short_name"), Double.parseDouble(record.get("stop_lat")), Double.parseDouble(record.get("stop_lon")), Integer.parseInt(record.get("direction_id")));
     }
+    inBus.close();
 
 
     // se lee el archivo de etaciones de subte
@@ -42,16 +44,17 @@ public class Start {
             .parse(inSubway);
 
     for (CSVRecord record : recordsSubway) {
-      graph.addNode(record.get("id"), record.get("linea"), Double.parseDouble(record.get("lat")), Double.parseDouble(record.get("long")), 1);  // no importa la direccion ya que va y vuelve por el mismo lado
-      //System.out.println(String.format("%s, %s, %f, %f", record.get("id"), record.get("linea"), Double.parseDouble(record.get("lat")), Double.parseDouble(record.get("long"))));
+      graph.addNode(record.get("id"), record.get("linea"), Double.parseDouble(record.get("lat")), Double.parseDouble(record.get("long")), 1);  // no importa la direccion
     }
-
-    graph.addEdges();
-    // se cierran ambos archivos
-    inBus.close();
     inSubway.close();
 
 
+    // se agregan las aristas
+    graph.addEdges();
+
+
+    // se crea el mapa para los lugares
+    SearchLocation locations = new SearchLocation();
 
     // se lee el archivo de centros culturales
     String culturalPlacesFile= "/espacios-culturales.csv"; InputStream isCulturalPlaces =
@@ -61,8 +64,6 @@ public class Start {
     Iterable<CSVRecord> recordsCulturalPlaces = CSVFormat.DEFAULT
             .withFirstRecordAsHeader()
             .parse(inCulturalPlaces);
-
-    SearchLocation locations = new SearchLocation();
 
     for (CSVRecord record : recordsCulturalPlaces) {
       locations.addLocation(record.get("establecimiento"), Double.parseDouble(record.get("latitud")), Double.parseDouble(record.get("longitud")));
